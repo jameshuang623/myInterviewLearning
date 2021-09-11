@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Copy</title>
+</head>
+<body>
+
+
+<script>
+    // number string boolean undefined null
+    // obj
+    // (symbol bigint)
+    let a = 123
+    let obj = {}
+
+    let person = {
+        name: '艾佛森',
+        hobby: ['学习', ['看电影', 'shopping'], '跑步']
+    }
+
+    let person1 = person
+    person1.name = '詹姆斯'
+    person1.hobby[0] = '玩耍'
+
+    console.log(person)
+    console.log(person1) // 赋值，但不是浅拷贝
+
+    let person2 = {
+        name: '科比',
+        hobby: ['学习', ['看电影', 'shopping'], '跑步']
+    }
+
+
+    function shallowCopy(obj) {
+        let target = {}
+        for (let key in obj) {
+            if (obj.hasOwnProperty(key)) {
+                target[key] = obj[key]
+            }
+        }
+        return target
+    }
+
+    let person3 = shallowCopy(person2)
+    person3.name = '詹姆斯'
+    person3.hobby[0] = '玩耍'
+
+    console.log(person2)
+    console.log(person3) // 浅拷贝，注意看 hobby 和 name 的对比
+
+
+    let person4 = {
+        name: '乔丹',
+        hobby: ['学习', ['看电影', 'shopping'], '跑步']
+    }
+
+    function deepClone(obj) {
+        let cloneObj = new obj.constructor()
+        // let cloneObj = {}
+        if (obj === null) return obj // null 的类型也属于 object
+        if (obj instanceof Date) return new Date(obj)
+        if (obj instanceof RegExp) return new RegExp(obj)
+        if (typeof obj !== 'object') return obj
+        for (let key in obj) {
+            if (obj.hasOwnProperty(key)) {
+                cloneObj[key] = deepClone(obj[key])
+            }
+        }
+        return cloneObj
+    }
+
+    let person5 = deepClone(person4)
+    person5.name = '詹姆斯'
+    person5.hobby[0] = '玩耍'
+
+    console.log(person4)
+    console.log(person5) // 深拷贝，结果互不影响
+
+
+    let person6 = JSON.parse(JSON.stringify(person4))
+    person6.name = '詹姆斯'
+    person6.hobby[0] = '玩耍'
+
+    console.log(person4)
+    console.log(person6) // 也是深拷贝，但这种方式有缺点
+
+    let person7 = {
+        name: '乔丹',
+        hobby: ['学习', ['看电影', 'shopping'], '跑步'],
+        date: new RegExp('\\w+'),
+        date2: new Date(2021),
+        function(){}
+    }
+
+    let person8 = JSON.parse(JSON.stringify(person7))
+    person8.name = '詹姆斯'
+    person8.hobby[0] = '玩耍'
+
+    console.log(person7)
+    console.log(person8)   // 这种方式有缺点，函数和正则表达式不拷贝
+
+
+</script>
+</body>
+</html>
