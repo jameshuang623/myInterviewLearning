@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>题目</title>
+</head>
+<body>
+
+
+<script>
+    var name = 222
+    var a = {
+        name: 111,
+        say: function (){
+            console.log(this.name)
+        }
+    }
+
+    var fun = a.say
+    fun()
+    a.say()
+
+    var b = {
+        name: 333,
+        say: function (fun){
+            fun()
+        }
+    }
+    b.say(a.say)
+    b.say = a.say
+    b.say()
+</script>
+</body>
+</html>
