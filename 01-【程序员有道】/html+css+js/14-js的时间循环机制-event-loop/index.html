@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>js的event-loop</title>
+</head>
+<body>
+
+<script>
+    function fun1(){
+        console.log(1)
+    }
+    function fun2(){
+        console.log(2)
+        fun1()
+        console.log(3)
+    }
+    fun2()
+
+
+    function func1(){
+        console.log(1)
+    }
+    function func2(){
+        setTimeout(()=>{
+            console.log(2)
+        }, 0)
+        func1()
+        console.log(3)
+    }
+    func2()
+
+
+    let p = new Promise(resolve => {
+        console.log(4)
+        resolve(5)
+    })
+    function func3(){
+        console.log(1)
+    }
+    function func4(){
+        setTimeout(() => {
+            console.log(2)
+        }, 0)
+        func3()
+        console.log(3)
+        p.then(resolve => {
+            console.log(resolve)
+        })
+    }
+    func4()
+    // 整段代码的输出结果是
+    // 2 1 3 1 3 4 1 3 5 2 2
+    // 结合分析就能理解输出结果了
+</script>
+
+</body>
+</html>
