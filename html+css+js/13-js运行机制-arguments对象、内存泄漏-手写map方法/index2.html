@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>手写map</title>
+</head>
+<body>
+
+<script>
+    let arr = [1, 2, 3]
+    let array = arr.map((item, index) => {
+        return item*2
+    })
+    console.log(array)
+
+
+    function map(arr, mapCallback){
+        // 检查参数是否正确
+        if (!Array.isArray(arr) || !arr.length || typeof mapCallback !== 'function'){
+            return []
+        } else {
+            // 进行下面的操作
+            let result =[]
+            for (let i=0, len = arr.length; i<len; i++){
+                result.push(mapCallback(arr[i], i, arr))
+            }
+            return result
+        }
+    }
+
+
+    console.log(map(arr, (item) =>{
+        console.log(item)
+        return item*2
+    }))
+
+</script>
+</body>
+</html>
