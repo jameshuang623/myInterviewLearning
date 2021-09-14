@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>call apply bind</title>
+</head>
+<body>
+<div class="div1"></div>
+<div class="div1"></div>
+<div class="div1"></div>
+
+
+<script>
+    // 1. 将伪数组转化为数组
+    let div = document.getElementsByClassName('div1')
+    console.log(div)
+
+    let arr1 = Array.prototype.slice.call(div)
+    console.log(arr1)
+    // IE8 以下这种方法行不通
+
+    function listToArray(likeArray){
+        let arr = []
+        try {
+            arr = Array.prototype.slice.call(likeArray)
+        } catch (e){
+            for(let i=0; i<likeArray.length; i++){
+                arr[arr.length] = likeArray[i] // 学习这个写法！
+            }
+        }
+    }
+
+
+    // arguments
+    function fn(){
+        console.log(arguments)
+        console.log(Array.prototype.slice.call(arguments))
+    }
+    fn(1,2,3,4,5)
+
+
+    // 类数组对象
+    let obj1 = {
+        0: 1,
+        1: 'lisa',
+        2: 'jisoo',
+        3: 'rose',
+        4: 'jennie',
+        length: 5 // 一定要有 否则不叫类数组
+    }
+    console.log(Array.prototype.slice.call(obj1))
+
+    // 数组的拼接
+    let arr2 = [1, 2, 3]
+    let arr3 = [4, 5, 6]
+
+    console.log(arr2.concat(arr3)) // 不会改变原数组
+    console.log(arr2)
+    console.log(arr3)
+
+    // 用 apply 来实现
+    // 将 arr2 变成拼接后的数组
+    Array.prototype.push.apply(arr2, arr3)
+    console.log(arr2)
+
+
+    // 判断数据类型
+    // array obj
+    let array1 = [1, 2, 3]
+    function isArray(array){
+        // console.log(Object.prototype.toString.call(array));
+        return Object.prototype.toString.call(array) === '[object Array]'
+        // 为什么返回的是 [object Array]    还不太懂
+    }
+
+    function isObject(array){
+        return Object.prototype.toString.call(array) === '[object Object]'
+    }
+
+    function isString(array){
+        return Object.prototype.toString.call(array) === '[object String]'
+    }
+    function isNull(array){
+        return Object.prototype.toString.call(array) === '[object Null]'
+    }
+
+    console.log(isArray(array1))
+
+</script>
+</body>
+</html>
