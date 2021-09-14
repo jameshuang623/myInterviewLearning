@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>es6 class类</title>
+</head>
+<body>
+
+<script>
+    // // es5 构造函数
+    // function Person(name, sex) {
+    //     this.name = name
+    //     this.sex = sex
+    // }
+    //
+    // Person.prototype.say = function () {
+    //     console.log('学前端很幸福')
+    // }
+    // let person1 = new Person('星空', '男')
+    // console.log(person1.name)
+    // person1.say()
+
+
+    // es6 的实现
+    class Person {
+        // 实际开发中，constructor 更多的是做初始化的操作
+        // 当实例化对象时，constructor方法会被自动执行一次
+        constructor(name, sex) {
+            this.name = name
+            this.sex = sex
+        }
+        say(){
+            console.log('学前端很幸福')
+        }
+    }
+
+    let person1 = new Person('星空', '男')
+    console.log(person1.name)
+    person1.say()
+
+    console.log(person1.say === Person.prototype.say)
+
+    // es6 实现单例模式
+    // 静态方法 static
+    // 只能被 class 类自己调用
+    // 不能被该类的实例调用
+    class Foo{
+        static classMethod(){
+            return 'hello'
+        }
+    }
+    let foo = new Foo()
+    console.log(Foo.classMethod())
+    // console.log(foo.classMethod());  // Uncaught TypeError: foo.classMethod is not a function
+
+
+
+    // class JrgEdu{
+    //     constructor(name, creator, products) {
+    //         this.name = name
+    //         this.creator = creator
+    //         this.products = products
+    //     }
+    // }
+    //
+    // let jrg = new JrgEdu('饥人谷', '老师', ['js高级', 'es6', 'vue源码'])
+    // let jrgFalse = new JrgEdu('急人谷', '老湿', ['jr高级', 'es66', 'vue源码'])
+    // console.log(jrg === jrgFalse)  // false
+
+
+    // jrgFalse 是错误的，应该形成单例
+    class JrgEdu{
+        constructor(name, creator, products) {
+            this.name = name
+            this.creator = creator
+            this.products = products
+        }
+
+        static getInstance(name, creator, products){
+            if(!this.instance){
+                this.instance = new JrgEdu(name, creator, products)
+            }
+            return this.instance
+        }
+    }
+
+    let JrgStu = JrgEdu.getInstance('饥人谷', '老师', ['js高级', 'es6', 'vue源码'])
+    let JrgStuFalse = JrgEdu.getInstance('急人谷', '老湿', ['jr高级', 'es66', 'vue源码'])
+    console.log(JrgStu === JrgStuFalse)  // true
+    console.log(JrgStu.name)
+    console.log(JrgStuFalse.name) // 也会打印'饥人谷'
+
+
+</script>
+</body>
+</html>
